@@ -1,30 +1,47 @@
 import { useState } from "react";
 import './app.css'
+import Cart from './components/Cart';
+import Products from './components/Products';
+import Home from './pages/Home';
+
+
 
 export default function App() {
   const [cart, setCart] = useState([]);
   const [page, setPage] = useState("home");
 
   const products = [
-    { id: 1, name: "iPhone 13", price: 999, image: "https://via.placeholder.com/150" },
-    { id: 2, name: "Book: React Basics", price: 29, image: "https://via.placeholder.com/150" },
-    { id: 3, name: "Wireless Headphones", price: 199, image: "https://via.placeholder.com/150" }
+    { id: 1, name: "iPhone 13", price: 999, image: "/iphone13.jpg" },
+    { id: 2, name: "Book: React Basics", price: 29, image: "/reactbook.png" },
+    { id: 3, name: "Wireless Headphones", price: 199, image: "/headphones.jpg" }
   ];
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
   };
-
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+    setCart((prevCart) => 
+      prevCart.map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
   };
-
   return (
     <div>
       <nav>
-        <button className="pramod" onClick={() => setPage("home")}>Home</button>
-        <button onClick={() => setPage("products")}>Products</button>
-        <button onClick={() => setPage("cart")}>Cart ({cart.length})</button>
+        <button className="riya" onClick={() => setPage("home")}>Home</button>
+        <button className="riya"onClick={() => setPage("products")}>Products</button>
+        <button className="riya" onClick={() => setPage("cart")}>Cart ({cart.reduce((total, item) => total + item.quantity, 0)})</button>
       </nav>
 
       {page === "home" && <Home setPage={setPage} />}
@@ -33,44 +50,3 @@ export default function App() {
     </div>
   );
 }
-
-// src/Home.tsx
-const Home = ({ setPage }) => (
-  <div>
-    <h1>Welcome to Our Store</h1>
-    <p>Find the best products at amazing prices</p>
-    <button onClick={() => setPage("products")}>Shop Now</button>
-  </div>
-);
-
-// src/Products.tsx
-const Products = ({ products, addToCart }) => (
-  <div>
-    {products.map((product) => (
-      <div key={product.id}>
-        <img src={product.image} alt={product.name} />
-        <h2>{product.name}</h2>
-        <p>${product.price}</p>
-        <button onClick={() => addToCart(product)}>Add to Cart</button>
-      </div>
-    ))}
-  </div>
-);
-
-// src/Cart.tsx
-const Cart = ({ cart, removeFromCart }) => (
-  <div>
-    <h2>Shopping Cart</h2>
-    {cart.length === 0 ? (
-      <p>Your cart is empty</p>
-    ) : (
-      cart.map((item) => (
-        <div key={item.id}>
-          <h2>{item.name}</h2>
-          <p>${item.price}</p>
-          <button onClick={() => removeFromCart(item.id)}>Remove</button>
-        </div>
-      ))
-    )}
-  </div>
-);
