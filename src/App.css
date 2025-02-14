@@ -4,9 +4,6 @@
   padding: 2rem;
   text-align: center;
 }
-.pramod{
-  color: green;
-}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -41,4 +38,31 @@
 
 .read-the-docs {
   color: #888;
+}
+.image{
+  height:400px;
+  width:270px;
+  border: 1px solid black;
+  margin:10px 10px 10px 10px;
+}
+.divp{
+  border: 1px solid black;
+  margin:10px 400px 10px 400px;
+
+}
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4076af;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px; 
+  cursor: pointer;
+  margin:5px 5px 10px 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+button:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 10px rgba(249, 251, 254, 0.908); 
 }
