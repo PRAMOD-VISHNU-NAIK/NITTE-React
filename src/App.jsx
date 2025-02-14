@@ -1,18 +1,42 @@
 import { useState } from "react";
-import './app.css'
+import "./app.css";
+import Home from "./components/Home";
+import Products from "./components/Products";
+import Cart from "./components/Cart";
 
 export default function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([{
+    id: 1,
+    name: "iPhone 13",
+    price: 999,
+    image: "cam.jpg",
+    qty: 1
+  }]);
   const [page, setPage] = useState("home");
 
-  const products = [
-    { id: 1, name: "iPhone 13", price: 999, image: "https://via.placeholder.com/150" },
-    { id: 2, name: "Book: React Basics", price: 29, image: "https://via.placeholder.com/150" },
-    { id: 3, name: "Wireless Headphones", price: 199, image: "https://via.placeholder.com/150" }
-  ];
-
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id);
+  
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, qty: 1 }];
+      }
+    });
+  };
+  
+  
+  console.log("cart", cart);
+
+  const updateQuantity = (id, newQty) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, qty: Math.max(1, newQty) } : item
+      )
+    );
   };
 
   const removeFromCart = (id) => {
@@ -20,57 +44,33 @@ export default function App() {
   };
 
   return (
-    <div>
-      <nav>
-        <button className="pramod" onClick={() => setPage("home")}>Home</button>
-        <button onClick={() => setPage("products")}>Products</button>
-        <button onClick={() => setPage("cart")}>Cart ({cart.length})</button>
+    <div className="app-container">
+      <nav className="navbar">
+        <button className="nav-button" onClick={() => setPage("home")}>
+          Home
+        </button>
+        <button className="nav-button" onClick={() => setPage("products")}>
+          Products
+        </button>
+        <button
+          className="nav-button cart-button"
+          onClick={() => setPage("cart")}
+        >
+          Cart ({cart.length})
+        </button>
       </nav>
 
-      {page === "home" && <Home setPage={setPage} />}
-      {page === "products" && <Products products={products} addToCart={addToCart} />}
-      {page === "cart" && <Cart cart={cart} removeFromCart={removeFromCart} />}
+      <div className="content">
+        {page === "home" && <Home setPage={setPage} />}
+        {page === "products" && <Products addToCart={addToCart} />}
+        {page === "cart" && (
+          <Cart
+            cart={cart}
+            removeFromCart={removeFromCart}
+            updateQuantity={updateQuantity}
+          />
+        )}
+      </div>
     </div>
   );
 }
-
-// src/Home.tsx
-const Home = ({ setPage }) => (
-  <div>
-    <h1>Welcome to Our Store</h1>
-    <p>Find the best products at amazing prices</p>
-    <button onClick={() => setPage("products")}>Shop Now</button>
-  </div>
-);
-
-// src/Products.tsx
-const Products = ({ products, addToCart }) => (
-  <div>
-    {products.map((product) => (
-      <div key={product.id}>
-        <img src={product.image} alt={product.name} />
-        <h2>{product.name}</h2>
-        <p>${product.price}</p>
-        <button onClick={() => addToCart(product)}>Add to Cart</button>
-      </div>
-    ))}
-  </div>
-);
-
-// src/Cart.tsx
-const Cart = ({ cart, removeFromCart }) => (
-  <div>
-    <h2>Shopping Cart</h2>
-    {cart.length === 0 ? (
-      <p>Your cart is empty</p>
-    ) : (
-      cart.map((item) => (
-        <div key={item.id}>
-          <h2>{item.name}</h2>
-          <p>${item.price}</p>
-          <button onClick={() => removeFromCart(item.id)}>Remove</button>
-        </div>
-      ))
-    )}
-  </div>
-);

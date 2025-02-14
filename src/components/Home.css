@@ -1,0 +1,44 @@
+/* Home Container */
+.home-container {
+    text-align: center;
+    margin-top: 50px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Heading */
+  .home-container h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Paragraph */
+  .home-container p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  /* Shop Button */
+  .shop-button {
+    background-color: #ff6600;
+    color: white;
+    font-size: 18px;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .shop-button:hover {
+    background-color: #e65c00;
+    transform: scale(1.05);
+  }
+  
