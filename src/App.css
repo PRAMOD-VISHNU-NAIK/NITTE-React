@@ -1,3 +1,8 @@
+*{
+  background-color: peachpuff;
+}
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -42,3 +47,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.products-image {
+  max-width: 100%;    /* Ensures the image won't exceed the container width */
+  max-height: 300px;  /* Limits the height of the image */
+  object-fit: contain; /* Keeps the aspect ratio of the image intact */
+  width: '100px';        /* Allows the width to adjust based on the aspect ratio */
+  height: '100px';       /* Allows the height to adjust based on the aspect ratio */
+}
+
+
